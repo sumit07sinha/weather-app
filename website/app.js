@@ -1,6 +1,7 @@
 let newDate = new Date();
-
-const apiKey = "c784465342856b329aec22d7961186d4";
+let month = newDate.getMonth() + 1;
+let todayDate = month + "." + newDate.getDate() + "." + newDate.getFullYear();
+const apiKey = "c784465342856b329aec22d7961186d4&units=metric";
 const apiAddress = "http://api.openweathermap.org/data/2.5/weather?zip=";
 
 const postData = async (url, data) => {
@@ -38,7 +39,7 @@ document.getElementById("generate").addEventListener("click", function (event) {
   let feelings = document.getElementById("feelings").value;
   getFromKey(newZip, apiKey).then(function (data) {
     postData("/addPost", {
-      date: newDate,
+      date: todayDate,
       content: feelings,
       temp: data.main.temp,
     }).then(updateUI());
@@ -50,7 +51,7 @@ const updateUI = async () => {
   try {
     let allData = await request.json();
     document.getElementById("date").innerHTML = "date: " + allData.date;
-    document.getElementById("temp").innerHTML = "temp: " + allData.temp + "K";
+    document.getElementById("temp").innerHTML = "temp: " + allData.temp + "°C";
     document.getElementById("content").innerHTML =
       "feelings: " + allData.content;
   } catch (error) {
